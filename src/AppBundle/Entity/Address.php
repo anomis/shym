@@ -362,4 +362,9 @@ class Address
     {
         return $this->customer;
     }
+
+    public function __toString()
+    {
+        return $this->getName();
+    }
 }

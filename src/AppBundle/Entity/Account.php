@@ -3,12 +3,14 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Account
  *
  * @ORM\Table(name="account", indexes={@ORM\Index(name="login_index", columns={"login"}), @ORM\Index(name="password_index", columns={"password"})})
  * @ORM\Entity
+ * @UniqueEntity(fields={"login", "password"}, message="This login + password combination is not available")
  */
 class Account
 {
@@ -155,5 +157,10 @@ class Account
     public function getActive()
     {
         return $this->active;
+    }
+
+    public function __toString()
+    {
+        return $this->getEmail();
     }
 }

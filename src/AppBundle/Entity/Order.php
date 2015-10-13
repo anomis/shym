@@ -7,11 +7,15 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Order
  *
- * @ORM\Table(name="order", indexes={@ORM\Index(name="fk_order_customer_idx", columns={"customer_id"})})
+ * @ORM\Table(name="vendor_order", indexes={@ORM\Index(name="fk_order_customer_idx", columns={"customer_id"})})
  * @ORM\Entity
  */
 class Order
 {
+    const STATUS_NEW = 1;
+    const STATUS_PROCESSING = 10;
+    const STATUS_DELIVERED = 20;
+    const STATUS_CANCELLED = 30;
     /**
      * @var integer
      *
@@ -127,5 +131,10 @@ class Order
     public function getCustomer()
     {
         return $this->customer;
+    }
+
+    public function __toString()
+    {
+        return (string) $this->getId();
     }
 }

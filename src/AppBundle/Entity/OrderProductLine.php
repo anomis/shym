@@ -131,4 +131,9 @@ class OrderProductLine
     {
         return $this->productSale;
     }
+
+    public function __toString()
+    {
+        return (string)$this->getOrder()->getId();
+    }
 }

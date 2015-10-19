@@ -75,7 +75,7 @@ class Address
      *
      * @ORM\Column(name="deleted", type="boolean", nullable=true)
      */
-    private $deleted = '0';
+    private $deleted = false;
 
     /**
      * @var \Country

@@ -1,3 +1,7 @@
+app_dashboard:
+    resource: "@AppBundle/Resources/config/routing/dashboard.yml"
+    prefix:   /dashboard
+
 app_warehouse:
     resource: "@AppBundle/Resources/config/routing/warehouse.yml"
     prefix:   /warehouse

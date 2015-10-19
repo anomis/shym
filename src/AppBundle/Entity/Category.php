@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\DependencyInjection\Exception\LogicException;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -10,6 +11,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Table(name="category", indexes={@ORM\Index(name="fk_category_category_idx", columns={"parent_category_id"})})
  * @ORM\Entity
+ * @ORM\HasLifecycleCallbacks()
  */
 class Category
 {
@@ -171,5 +173,15 @@ class Category
             return true;
         }
         return $this->getId() !== $this->getParentCategory()->getId();
+    }
+
+    /**
+     * @ORM\preRemove
+     */
+    public function preRemove()
+    {
+        if (count($this->getProduct())) {
+            throw new LogicException('Cannot remove a category that has products');
+        }
     }
 }

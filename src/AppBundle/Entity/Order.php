@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="vendor_order", indexes={@ORM\Index(name="fk_order_customer_idx", columns={"customer_id"})})
  * @ORM\Entity
+ * @ORM\HasLifecycleCallbacks
  */
 class Order
 {
@@ -16,6 +17,8 @@ class Order
     const STATUS_PROCESSING = 10;
     const STATUS_DELIVERED = 20;
     const STATUS_CANCELLED = 30;
+
+    const REPOSITORY = 'AppBundle:Order';
     /**
      * @var integer
      *
@@ -49,6 +52,12 @@ class Order
      */
     private $customer;
 
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\OneToMany(targetEntity="OrderProductLine", mappedBy="order")
+     */
+    private $productLines;
 
 
     /**
@@ -136,5 +145,40 @@ class Order
     public function __toString()
     {
         return (string) $this->getId();
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function prePersist()
+    {
+        if (!$this->id) {
+            $this->status = self::STATUS_NEW;
+        }
+    }
+
+    /**
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getProductLines()
+    {
+        return $this->productLines;
+    }
+
+    /**
+     * @param \Doctrine\Common\Collections\Collection $productLines
+     * @return $this
+     */
+    public function setProductLines($productLines)
+    {
+        $this->productLines = $productLines;
+        return $this;
+    }
+
+    public function addProductLine(OrderProductLine $productLine)
+    {
+        $productLine->setOrder($this);
+        $this->productLines[] = $productLine;
+        return $this;
     }
 }

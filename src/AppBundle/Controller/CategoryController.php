@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Exception\AppException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
@@ -198,8 +199,14 @@ class CategoryController extends Controller
                 throw $this->createNotFoundException('Unable to find Category entity.');
             }
 
-            $em->remove($entity);
-            $em->flush();
+            try {
+                $em->remove($entity);
+                $em->flush();
+            } catch(AppException $ae) {
+                $this->addFlash('warning', $ae->getMessage());
+                return $this->updateAction($request, $id);
+            }
+
         }
 
         return $this->redirect($this->generateUrl('category'));

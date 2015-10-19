@@ -1,7 +1,21 @@
 html {
     font-size: 12px;
 }
-body{
+
+body {
     margin: 0px;
     padding: 0px;
+}
+
+ul.two-columns {
+    display: inline;
+    list-style-type: none;
+    padding: 5px;
+    float:left;
+    margin-right: 15px;
+    width: 30%;
+}
+
+ul.two-columns li a {
+    text-decoration: none;
 }

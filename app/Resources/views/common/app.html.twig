@@ -15,9 +15,13 @@
             {% endblock %}
         </div>
         <div id="content" class="ui-widget-content">
+            {% include 'common/flash_messages.html.twig' %}
             {% block content %}
             {% endblock %}
         </div>
-
+        <div id="footer" class="ui-widget-content">
+            {% block footer %}
+            {% endblock %}
+        </div>
     </div>
 {% endblock %}
